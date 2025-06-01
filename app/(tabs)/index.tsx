@@ -2,7 +2,6 @@ import { StyleSheet } from 'react-native';
 
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
-import { Chat } from '@/src/chat';
 import { ChatsList } from '@/src/chat/components/List';
 import { List } from 'react-native-paper';
 import { Style } from 'react-native-paper/lib/typescript/components/List/utils';
@@ -25,17 +24,11 @@ const CompleteIcon = (props: { color: string; style: Style; }) => <ThemedView>
 export default function HomeScreen() {
   return (
     <>
-      <ThemedView style={styles.view}>
+      <ThemedView>
         <ThemedText type="title">
           Chats
         </ThemedText>
         <ChatsList />
-      </ThemedView>
-      <ThemedView>
-        <ThemedText type="title">
-          Chat Window
-        </ThemedText>
-        <Chat />
       </ThemedView>
       <ThemedView style={styles.titleContainer}>
         <ThemedText type="title">
@@ -49,7 +42,7 @@ export default function HomeScreen() {
             titleStyle={styles.listItem}
             title="Navigation"
           />
-          <List.Item left={ProgressIcon} title="Websockets" titleStyle={styles.listItem} />
+          <List.Item left={CompleteIcon} title="Websockets" titleStyle={styles.listItem} />
           <List.Item left={ProgressIcon} title="Notifications" titleStyle={styles.listItem} />
         </ThemedText>
       </ThemedView>
@@ -58,10 +51,6 @@ export default function HomeScreen() {
 }
 
 const styles = StyleSheet.create({
-  view: {
-    backgroundColor: '#eeddee',
-    color: '#440044',
-  },
   titleContainer: {
     flexDirection: 'row',
     alignItems: 'center',

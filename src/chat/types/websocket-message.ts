@@ -1,4 +1,5 @@
 import { ChatChannelProps } from "./channel";
+import { ChatMessageProps } from "./message";
 
 export type WebsocketMessageProps = {
   event: 'join';
@@ -12,6 +13,9 @@ export type WebsocketMessageProps = {
   data: {
     channels: ChatChannelProps[];
   };
+} | {
+  event: 'list-messages';
+  data: ChatMessageProps[];
 } | {
   event: 'message';
   data: {

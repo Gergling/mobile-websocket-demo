@@ -34,6 +34,20 @@ wss.on('request', ws => {
 wss.on('connection', ws => {
   console.log('Client connected');
 
+  const sendChannelList = () =>
+    ws.send(JSON.stringify({ event: 'list-channels', data: { channels } }));
+
+  const sendMessageList = (data) => {
+    const channelName = data.channel;
+    const channel = channels.find(({ name }) => name === channelName);
+    if (channel) {
+      console.log('messages', channel.messages)
+      ws.send(JSON.stringify({ event: 'list-messages', data: channel.messages }));
+    } else {
+      console.error('Trying to get message list for channel that does not exist:', channelName)
+    }
+  }
+
   ws.on('message', message => {
     try {
       const msgString = message.toString(); // Convert Buffer to string
@@ -43,10 +57,10 @@ wss.on('connection', ws => {
       console.log('data', data)
       switch (event) {
         case 'join':
-          ws.send(JSON.stringify({ event, data }));
+          sendMessageList(data);
           break;
         case 'request-channels':
-          ws.send(JSON.stringify({ event: 'list-channels', data: { channels } }));
+          sendChannelList();
           break;
         case 'message':
           // TODO: get the channel
@@ -60,6 +74,7 @@ wss.on('connection', ws => {
             channel.messages.push(theirChatMessage);
             // send back the response
             ws.send(JSON.stringify({ event, data: { message: theirChatMessage.value }}));
+            sendChannelList();
           }
           break;
         default:

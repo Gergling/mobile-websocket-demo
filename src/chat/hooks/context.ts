@@ -4,16 +4,25 @@ import { ChatChannelProps, ChatContextProps, ChatMessageProps, WebsocketMessageP
 
 const DOMAIN = '192.168.1.240';
 
-type ChatLogAction = ChatMessageProps & {
-  // type: 'new-message';
-};
+type ChatLogAction = (ChatMessageProps & {
+  type: 'new-message';
+}) | ({
+  type: 'join-chat';
+  messages: ChatMessageProps[];
+});
 
 const chatLogReducer = (state: ChatMessageProps[], action: ChatLogAction) => {
   console.log('action:', action)
-  return [
-    ...state,
-    action,
-  ];
+  switch (action.type) {
+    case 'join-chat':
+      return action.messages;
+    case 'new-message':
+      const { value, yours } = action;
+      return [
+        ...state,
+        { value, yours }
+      ];
+  }
 };
 
 const useLog = (x: string, y: any) => useEffect(() => console.log(x, y), [x, y]);
@@ -30,16 +39,6 @@ export const useChatContext = (): ChatContextProps => {
   const [channels, setChannels] = useState<ChatChannelProps[]>([]);
   const [currentChannel, setCurrentChannel] = useState<ChatChannelProps | undefined>();
   const [messages, dispatchMessage] = useReducer(chatLogReducer, []);
-  // const { channel: channelName } = useLocalSearchParams();
-
-  // const currentChannel = useMemo(() => {
-  //   console.log('usememo current channel', channelName, channels)
-  //   if (channelName) {
-  //     console.log('channelName', channelName, channels)
-
-  //     return channels.find(({ name }) => channelName === name);
-  //   }
-  // }, [channelName, channels]);
 
   const requestChannelList = useCallback(
     () => sendJsonMessage<WebsocketMessageProps>({ event: 'request-channels' }),
@@ -55,7 +54,7 @@ export const useChatContext = (): ChatContextProps => {
     (message: string) => {
       console.log('sending', message)
       if (currentChannel) {
-        dispatchMessage({ yours: true, value: message });
+        dispatchMessage({ type: 'new-message', value: message, yours: true });
         send({ event: 'message', data: { channel: currentChannel.name, message } });
       } else {
         console.error('Attempting to message without a channel.')
@@ -86,14 +85,16 @@ export const useChatContext = (): ChatContextProps => {
     if (lastJsonMessage) {
       const { event } = lastJsonMessage;
       switch (event) {
-        case 'join':
+        case 'list-messages':
+          console.log(lastJsonMessage)
+          dispatchMessage({ type: 'join-chat', messages: lastJsonMessage.data })
           break;
         case 'list-channels':
           console.log('list channels triggered', lastJsonMessage, lastJsonMessage.data.channels)
           setChannels(lastJsonMessage.data.channels);
           break;
         case 'message':
-          dispatchMessage({ yours: false, value: lastJsonMessage.data.message });
+          dispatchMessage({ type: 'new-message', value: lastJsonMessage.data.message, yours: false });
           break;
         default:
           console.error(`Unexpected message event: '${event}'.`);

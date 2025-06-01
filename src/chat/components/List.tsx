@@ -5,7 +5,7 @@ import { List } from "react-native-paper";
 import { useChat } from "../hooks";
 
 export const ChatsList = () => {
-  const { navigate, push } = useRouter();
+  const { navigate } = useRouter();
   const { channels, requestChannelList } = useChat();
   const chats = useMemo(
     () => channels.map(({ messages, name, ...props }) => {
@@ -35,7 +35,7 @@ export const ChatsList = () => {
     <>
       {chats.map(({ lastMessage, name, handlePress }, idx) => <List.Item
         key={idx}
-        left={(props) => <ThemedView style={{ backgroundColor: 'rgba(0, 0, 0, 0)' }}>
+        left={(props) => <ThemedView>
           <List.Icon
             {...props}
             icon="account"

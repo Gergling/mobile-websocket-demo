@@ -1,5 +1,5 @@
 import { PropsWithChildren } from "react";
-import { useChatContext } from "../hooks";
+import { useChatContext } from "../hooks/context";
 import { ChatContext } from "./Context";
 
 export const ChatContextProvider = ({ children }: PropsWithChildren) => {

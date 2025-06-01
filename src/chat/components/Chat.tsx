@@ -1,6 +1,5 @@
 import { ThemedView } from "@/components/ThemedView";
 import { useState } from "react";
-import { StyleSheet } from "react-native";
 import { IconButton, List, Text, TextInput } from "react-native-paper";
 import { useChat } from "../hooks";
 
@@ -16,11 +15,11 @@ export const Chat = () => {
 
   return (
     <ThemedView>
-      <Text style={styles.view}>{currentChannel?.name || '(Invalid channel)'}</Text>
-      <ThemedView style={styles.view}>
+      <Text>{currentChannel?.name || '(Invalid channel)'}</Text>
+      <ThemedView>
         {messages.map(({ value, yours }, idx) => <List.Item
           key={idx}
-          left={yours ? undefined : (props) => <ThemedView style={{ backgroundColor: 'rgba(0, 0, 0, 0)' }}>
+          left={yours ? undefined : (props) => <ThemedView>
             <List.Icon
               {...props}
               icon="chat"
@@ -35,10 +34,3 @@ export const Chat = () => {
     </ThemedView>
   )
 };
-
-const styles = StyleSheet.create({
-  view: {
-    backgroundColor: '#eeddee',
-    color: '#440044',
-  },
-});
