@@ -3,6 +3,7 @@ import { StyleSheet } from 'react-native';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
 import { ChatsList } from '@/src/chat/components/List';
+import { PushNotificationsTest } from '@/src/push';
 import { List } from 'react-native-paper';
 import { Style } from 'react-native-paper/lib/typescript/components/List/utils';
 
@@ -29,6 +30,12 @@ export default function HomeScreen() {
           Chats
         </ThemedText>
         <ChatsList />
+      </ThemedView>
+      <ThemedView>
+        <ThemedText type="title">
+          Notifications Test:
+        </ThemedText>
+        <PushNotificationsTest />
       </ThemedView>
       <ThemedView style={styles.titleContainer}>
         <ThemedText type="title">

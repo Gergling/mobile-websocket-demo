@@ -1,3 +1,4 @@
+import { scheduleNewChatMessageNotification } from '@/src/push/utils/schedule-notification';
 import { useCallback, useEffect, useReducer, useState } from "react";
 import useWebSocket, { ReadyState } from "react-use-websocket";
 import { ChatChannelProps, ChatContextProps, ChatMessageProps, WebsocketMessageProps } from "../types";
@@ -86,7 +87,6 @@ export const useChatContext = (): ChatContextProps => {
       const { event } = lastJsonMessage;
       switch (event) {
         case 'list-messages':
-          console.log(lastJsonMessage)
           dispatchMessage({ type: 'join-chat', messages: lastJsonMessage.data })
           break;
         case 'list-channels':
@@ -94,7 +94,9 @@ export const useChatContext = (): ChatContextProps => {
           setChannels(lastJsonMessage.data.channels);
           break;
         case 'message':
-          dispatchMessage({ type: 'new-message', value: lastJsonMessage.data.message, yours: false });
+          const newMessage = lastJsonMessage.data.message;
+          dispatchMessage({ type: 'new-message', value: newMessage, yours: false });
+          scheduleNewChatMessageNotification(newMessage).then(console.log).catch(console.error);
           break;
         default:
           console.error(`Unexpected message event: '${event}'.`);

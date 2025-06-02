@@ -6,8 +6,11 @@ import 'react-native-reanimated';
 
 import { useColorScheme } from '@/hooks/useColorScheme';
 import { ChatContextProvider } from '@/src/chat';
+import { setNotificationHandler } from '@/src/push';
 import { useMemo } from 'react';
 import { MD3DarkTheme, MD3LightTheme, PaperProvider } from 'react-native-paper';
+
+setNotificationHandler();
 
 export default function RootLayout() {
   const colorScheme = useColorScheme();

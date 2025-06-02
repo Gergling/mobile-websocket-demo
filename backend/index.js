@@ -74,7 +74,6 @@ wss.on('connection', ws => {
             channel.messages.push(theirChatMessage);
             // send back the response
             ws.send(JSON.stringify({ event, data: { message: theirChatMessage.value }}));
-            sendChannelList();
           }
           break;
         default:
