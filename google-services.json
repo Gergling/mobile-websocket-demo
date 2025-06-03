@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "975894628278",
+    "project_id": "mobile-websocket-demo",
+    "storage_bucket": "mobile-websocket-demo.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:975894628278:android:d1be93e351b7c1a058a317",
+        "android_client_info": {
+          "package_name": "com.gregmichaeldavies.mobilewebsocketdemo"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCOrBweyQchrd_Lb8fIGOojhAIHDLGt_5s"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
