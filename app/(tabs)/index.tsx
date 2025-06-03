@@ -4,7 +4,8 @@ import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
 import { ChatsList } from '@/src/chat/components/List';
 import { PushNotificationsTest } from '@/src/push';
-import { List } from 'react-native-paper';
+import { ToggleColorScheme } from '@/src/theme/components/ToggleColorScheme';
+import { List, Surface, Text } from 'react-native-paper';
 import { Style } from 'react-native-paper/lib/typescript/components/List/utils';
 
 const ProgressIcon = (props: { color: string; style: Style; }) => <ThemedView>
@@ -22,21 +23,15 @@ const CompleteIcon = (props: { color: string; style: Style; }) => <ThemedView>
   />
 </ThemedView>
 
+// TODO: Move content to the root. We aren't using tabs for this.
 export default function HomeScreen() {
   return (
-    <>
-      <ThemedView>
-        <ThemedText type="title">
-          Chats
-        </ThemedText>
-        <ChatsList />
-      </ThemedView>
-      <ThemedView>
-        <ThemedText type="title">
-          Notifications Test:
-        </ThemedText>
-        <PushNotificationsTest />
-      </ThemedView>
+    <Surface>
+      <Text>Chats</Text>
+      <ChatsList />
+      <ToggleColorScheme />
+      <Text>Notifications Test:</Text>
+      <PushNotificationsTest />
       <ThemedView style={styles.titleContainer}>
         <ThemedText type="title">
           Features:
@@ -53,7 +48,7 @@ export default function HomeScreen() {
           <List.Item left={ProgressIcon} title="Notifications" titleStyle={styles.listItem} />
         </ThemedText>
       </ThemedView>
-    </>
+    </Surface>
   );
 }
 

@@ -1,7 +1,6 @@
-import { ThemedView } from "@/components/ThemedView";
 import { useRouter } from "expo-router";
 import { useEffect, useMemo } from "react";
-import { List } from "react-native-paper";
+import { List, Surface, useTheme } from "react-native-paper";
 import { useChat } from "../hooks";
 
 export const ChatsList = () => {
@@ -28,23 +27,26 @@ export const ChatsList = () => {
     }),
     [channels, navigate]
   );
+  const {
+    colors: { onPrimaryContainer },
+  } = useTheme();
 
   useEffect(requestChannelList, [requestChannelList]);
 
   return (
-    <>
+    <Surface>
       {chats.map(({ lastMessage, name, handlePress }, idx) => <List.Item
-        key={idx}
-        left={(props) => <ThemedView>
-          <List.Icon
-            {...props}
-            icon="account"
-          />
-        </ThemedView>}
-        title={name}
         description={lastMessage}
+        key={idx}
+        left={(props) => <List.Icon {...props} icon="account"/>}
         onPress={handlePress}
+        right={(props) => <List.Icon {...props} icon="check-all"/>}
+        titleStyle={{ fontWeight: 'bold' }}
+        theme={{
+          colors: { onSurface: onPrimaryContainer, onSurfaceVariant: onPrimaryContainer },
+        }}
+        title={name}
       />)}
-    </>
+    </Surface>
   )
 };
