@@ -1,5 +1,4 @@
-import { ThemedView } from "@/components/ThemedView";
-import { Button, Text } from "react-native-paper";
+import { Button, Surface, Text } from "react-native-paper";
 import { usePushNotificationSetup } from "../hooks/setup";
 import { scheduleNewChatMessageNotification } from "../utils";
 
@@ -7,7 +6,7 @@ export const PushNotificationsTest = () => {
   const { expoPushToken, channels, notification } = usePushNotificationSetup();
 
   return (
-    <ThemedView>
+    <Surface>
       <Text>Test?</Text>
       <Text>Your expo push token: {expoPushToken}</Text>
       <Text>{`Channels: ${JSON.stringify(
@@ -15,16 +14,16 @@ export const PushNotificationsTest = () => {
         null,
         2
       )}`}</Text>
-      <ThemedView style={{  }}>
+      <Surface>
         <Text>Title: {notification && notification.request.content.title} </Text>
         <Text>Body: {notification && notification.request.content.body}</Text>
         <Text>Data: {notification && JSON.stringify(notification.request.content.data)}</Text>
-      </ThemedView>
+      </Surface>
       <Button
         onPress={async () => {
           await scheduleNewChatMessageNotification('Test message!');
         }}
       >Press to schedule a notification</Button>
-    </ThemedView>
+    </Surface>
   );
 };
